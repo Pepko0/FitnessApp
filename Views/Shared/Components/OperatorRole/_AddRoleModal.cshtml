@@ -1,0 +1,24 @@
+<div class="modal fade" id="addRoleModal" tabindex="-1" aria-labelledby="addRoleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <form asp-action="AddRole" asp-controller="OperatorRole" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addRoleModalLabel">Dodaj nową rolę</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+        </div>
+        <div class="modal-body">
+            @Html.AntiForgeryToken()
+            <div class="mb-3">
+                <label for="roleName" class="form-label">Nazwa roli</label>
+                <input id="roleName" name="name" class="form-control" maxlength="100" required />
+                <div class="form-text">Np. „Admin”, „Personal Trainer”, „Nutritionist”.</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Anuluj</button>
+          <button type="submit" class="btn btn-success">Zapisz</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

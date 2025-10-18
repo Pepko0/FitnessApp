@@ -1,0 +1,27 @@
+@model IEnumerable<FitnessApp.Models.Operator>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Email</th>
+            <th>Rola</th>
+            <th>Data utworzenia</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var o in Model)
+        {
+            <tr>
+                <td>@o.Id</td>
+                <td>@o.FirstName</td>
+                <td>@o.LastName</td>
+                <td>@o.Email</td>
+                <td>@(o.Role?.Name ?? "–")</td>
+                <td>@o.CreatedAt.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    </tbody>
+</table>
