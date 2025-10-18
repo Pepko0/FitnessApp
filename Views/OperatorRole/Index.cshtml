@@ -1,0 +1,28 @@
+@model IEnumerable<FitnessApp.Models.OperatorRole>
+@{
+    ViewData["Title"] = "Zarządzanie → Operatorzy";
+}
+
+<h1 class="mb-3">Zarządzanie: Role operatorów</h1>
+
+@if (TempData["Error"] is string err)
+{
+    <div class="alert alert-danger">@err</div>
+}
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success">@ok</div>
+}
+
+<div class="mb-3 text-end">
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">
+        Dodaj nową rolę
+    </button>
+</div>
+
+@await Html.PartialAsync("~/Views/Shared/Components/OperatorRole/_OperatorRolesTable.cshtml", Model)
+@await Html.PartialAsync("~/Views/Shared/Components/OperatorRole/_AddRoleModal.cshtml")
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

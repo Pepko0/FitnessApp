@@ -1,0 +1,54 @@
+@model IEnumerable<FitnessApp.Models.OperatorRole>
+
+<div class="modal fade" id="addOperatorModal" tabindex="-1" aria-labelledby="addOperatorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form asp-action="AddOperator" asp-controller="Operators" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addOperatorModalLabel">Dodaj nowego operatora</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+        </div>
+
+        <div class="modal-body">
+          @Html.AntiForgeryToken()
+
+          <div class="mb-3">
+            <label for="firstName" class="form-label">Imię</label>
+            <input name="FirstName" id="firstName" class="form-control" required maxlength="100" />
+          </div>
+
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Nazwisko</label>
+            <input name="LastName" id="lastName" class="form-control" required maxlength="100" />
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input name="Email" id="email" type="email" class="form-control" required maxlength="255" />
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Hasło</label>
+            <input name="Password" id="password" type="password" class="form-control" required maxlength="255" />
+          </div>
+
+          <div class="mb-3">
+            <label for="roleId" class="form-label">Rola</label>
+            <select name="RoleId" id="roleId" class="form-select" required>
+                <option value="">-- wybierz rolę --</option>
+                @foreach (var role in Model)
+                {
+                    <option value="@role.Id">@role.Name</option>
+                }
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Anuluj</button>
+          <button type="submit" class="btn btn-success">Zapisz</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
