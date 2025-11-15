@@ -1,0 +1,34 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+.vs/
+.idea/
+
+# Logs
+*.log
+
+# SQLite temp files
+*.db-shm
+*.db-wal
+
+# EF Core snapshot files
+Migrations/*Designer.cs
+
+# Cache
+*.cache
+*.temp
+*.tmp
+
+# Auto-generated Razor files
+*.g.cs
+*.g.cshtml.cs
+*.FileListAbsolute.txt
+
+# Publish output
+publish/
+
+# Rider / JetBrains
+.idea/
+*.iml

@@ -55,7 +55,7 @@ Tabela służy do grupowania operatorów według ich funkcji w aplikacji.
 
 |   Id    |    Name    |
 |:-------:|:----------:|
-| Id Roli | Nazwa roli |
+| Id roli | Nazwa roli |
 
 #### Powiązane pliki:
 - Models/OperatorRole.cs – definicja modelu 
