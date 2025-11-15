@@ -35,7 +35,8 @@ namespace FitnessAppMVC.Migrations
                     Email = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
                     Password = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     RoleId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
