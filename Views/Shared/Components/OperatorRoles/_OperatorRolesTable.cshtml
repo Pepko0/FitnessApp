@@ -7,7 +7,7 @@
 {
     Items = Model,  
 
-    Columns = new()
+    Columns = new List<TableColumn>()
     {
         new TableColumn { Header = "Nazwa roli", ValueSelector = x => ((OperatorRole)x).Name }
     },
