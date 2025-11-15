@@ -1,0 +1,47 @@
+@model FitnessApp.Models.ViewModels.EditOperatorViewModel
+
+@{
+    ViewData["Title"] = "Edytuj operatora";
+}
+
+<h1>Edytuj operatora</h1>
+
+<form asp-action="Edit" asp-route-id="@Model.Operator.Id" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label class="form-label">Imię</label>
+        <input asp-for="Operator.FirstName" class="form-control" />
+        <span asp-validation-for="Operator.FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Nazwisko</label>
+        <input asp-for="Operator.LastName" class="form-control" />
+        <span asp-validation-for="Operator.LastName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input asp-for="Operator.Email" class="form-control" />
+        <span asp-validation-for="Operator.Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Rola</label>
+        <select asp-for="Operator.RoleId" asp-items="Model.RoleItems" class="form-select"></select>
+
+    </div>
+
+    <a href="/zarzadzanie/operatorzy" class="btn btn-outline-secondary">
+        Anulujp
+    </a>
+
+    <button type="submit" class="btn btn-success">
+        Zapisz zmiany
+    </button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

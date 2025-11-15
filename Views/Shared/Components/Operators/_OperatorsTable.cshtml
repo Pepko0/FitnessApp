@@ -9,6 +9,7 @@
             <th>Email</th>
             <th>Rola</th>
             <th>Data utworzenia</th>
+            <th style="width: 150px;">Akcje</th>
         </tr>
     </thead>
     <tbody>
@@ -21,7 +22,62 @@
                 <td>@o.Email</td>
                 <td>@(o.Role?.Name ?? "–")</td>
                 <td>@o.CreatedAt.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <a href="/zarzadzanie/operatorzy/edytuj/@o.Id" class="btn btn-sm btn-primary">
+                        Edytuj
+                    </a>
+
+                    <button class="btn btn-sm btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#deleteOperatorModal"
+                        data-id="@o.Id" data-name="@o.FirstName @o.LastName">
+                        Usuń
+                    </button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<div class="modal fade" id="deleteOperatorModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form method="post" id="deleteOperatorForm">
+        @Html.AntiForgeryToken()
+
+        <div class="modal-header">
+          <h5 class="modal-title">Potwierdź usunięcie</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+            Czy na pewno chcesz usunąć operatora:
+            <strong id="deleteOperatorName"></strong>?
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Anuluj</button>
+          <button type="submit" class="btn btn-danger">Usuń</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("deleteOperatorModal");
+
+    modal.addEventListener("show.bs.modal", event => {
+        const button = event.relatedTarget;
+
+        const id = button.getAttribute("data-id");
+        const name = button.getAttribute("data-name");
+
+        document.getElementById("deleteOperatorName").textContent = name;
+
+        const form = document.getElementById("deleteOperatorForm");
+        form.action = `/zarzadzanie/operatorzy/usun/${id}`;
+    });
+});
+</script>
