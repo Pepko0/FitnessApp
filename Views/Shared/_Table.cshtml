@@ -1,0 +1,68 @@
+@using FitnessApp.Models.ViewModels
+@model TableViewModel
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            @foreach (var col in Model.Columns)
+            {
+                <th>@col.Header</th>
+            }
+
+            @if (Model.Actions?.Any() == true)
+            {
+                <th style="width: 150px;">Akcje</th>
+            }
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                @foreach (var col in Model.Columns)
+                {
+                    <td>@(col.ValueSelector?.Invoke(item))</td>
+                }
+
+                @if (Model.Actions?.Any() == true)
+                {
+                    <td>
+                        @foreach (var action in Model.Actions)
+                        {
+                            if (action.IsModal)
+                            {
+                                <button class="@action.CssClass"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#@action.ModalId"
+                                        data-id="@action.UrlSelector?.Invoke(item)"
+                                        data-name="@action.NameSelector?.Invoke(item)">
+                                    @if (!string.IsNullOrEmpty(action.Icon))
+                                    {
+                                        <i class="@action.Icon"></i>
+                                    }
+                                    @action.LabelSelector?.Invoke(item)
+                                </button>
+                            }
+                            else
+                            {
+                                <a href="@action.UrlSelector?.Invoke(item)" class="@action.CssClass">
+                                    @if (!string.IsNullOrEmpty(action.Icon))
+                                    {
+                                        <i class="@action.Icon"></i>
+                                    }
+                                    @action.LabelSelector?.Invoke(item)
+                                </a>
+                            }
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!string.IsNullOrEmpty(Model.ModalPartial))
+{
+    @await Html.PartialAsync(Model.ModalPartial, Model.ModalModel)
+}

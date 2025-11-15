@@ -28,5 +28,15 @@ namespace FitnessApp.Controllers
             TempData[success ? "Success" : "Error"] = message;
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost("/zarzadzanie/operatorzy/role/usun/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var (success, message) = await _roleService.DeleteRoleAsync(id);
+            TempData[success ? "Success" : "Error"] = message;
+        
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

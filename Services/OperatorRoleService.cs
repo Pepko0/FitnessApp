@@ -48,5 +48,24 @@ namespace FitnessApp.Services
                             .OrderBy(r => r.Name)
                             .ToListAsync();
         }
+
+        public async Task<(bool Success, string Message)> DeleteRoleAsync(int id)
+        {
+            var role = await _db.OperatorRoles.FirstOrDefaultAsync(r => r.Id == id);
+        
+            if (role == null)
+                return (false, "Nie znaleziono roli.");
+        
+            // sprawdź czy ktoś używa tej roli
+            bool isUsed = await _db.Operators.AnyAsync(o => o.RoleId == id);
+        
+            if (isUsed)
+                return (false, "Nie można usunąć roli, ponieważ jest przypisana do operatorów.");
+        
+            _db.OperatorRoles.Remove(role);
+            await _db.SaveChangesAsync();
+        
+            return (true, "Rola została usunięta.");
+        }
     }
 }

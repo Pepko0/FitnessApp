@@ -1,0 +1,27 @@
+@model FitnessApp.Models.ViewModels.ActionButtonViewModel
+
+@if (!string.IsNullOrWhiteSpace(Model.ModalTarget))
+{
+    <button 
+        class="@Model.CssClass"
+        data-bs-toggle="modal"
+        data-bs-target="@Model.ModalTarget"
+        data-id="@Model.ItemId"
+        data-name="@Model.ItemName">
+        @if (!string.IsNullOrWhiteSpace(Model.Icon))
+        {
+            <i class="@Model.Icon"></i>
+        }
+        @Model.Label
+    </button>
+}
+else
+{
+    <a href="@Model.Url" class="@Model.CssClass">
+        @if (!string.IsNullOrWhiteSpace(Model.Icon))
+        {
+            <i class="@Model.Icon"></i>
+        }
+        @Model.Label
+    </a>
+}
