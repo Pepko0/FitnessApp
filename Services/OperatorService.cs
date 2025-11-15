@@ -41,25 +41,6 @@ namespace FitnessApp.Services
         }
 
         /// <summary>
-        /// Dodaje nowego operatora do bazy
-        /// </summary>
-        public async Task<(bool Success, string Message)> AddOperatorAsync(Operator op)
-        {
-            // walidacja modelu
-            if (string.IsNullOrWhiteSpace(op.Email))
-                return (false, "Email jest wymagany.");
-
-            var exists = await _db.Operators.AnyAsync(o => o.Email == op.Email);
-            if (exists)
-                return (false, $"Operator z adresem {op.Email} już istnieje.");
-
-            _db.Operators.Add(op);
-            await _db.SaveChangesAsync();
-
-            return (true, $"Dodano nowego operatora: {op.FirstName} {op.LastName}");
-        }
-
-        /// <summary>
         /// Pobiera operatora po ID
         /// </summary>
         public async Task<Operator?> GetOperatorByIdAsync(int id)
@@ -114,6 +95,21 @@ namespace FitnessApp.Services
             return await _db.OperatorRoles
                 .OrderBy(r => r.Name)
                 .ToListAsync();
+        }
+
+        public async Task<(bool Success, string Message)> AddOperatorAsync(Operator op)
+        {
+            if (string.IsNullOrWhiteSpace(op.Email))
+                return (false, "Email jest wymagany.");
+        
+            var exists = await _db.Operators.AnyAsync(o => o.Email == op.Email);
+            if (exists)
+                return (false, $"Operator z adresem {op.Email} już istnieje.");
+        
+            _db.Operators.Add(op);
+            await _db.SaveChangesAsync();
+        
+            return (true, $"Dodano nowego operatora: {op.FirstName} {op.LastName}");
         }
     }
 }
