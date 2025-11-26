@@ -7,14 +7,25 @@ namespace FitnessApp.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        /// <summary>
-        /// Tabela operatorów (pracowników)
-        /// </summary>
+        // Tabela operatorów (pracowników)
         public DbSet<Operator> Operators { get; set; } = default!;
 
-        /// <summary>
-        /// Tabela ról operatorów (np. Admin, Trener personalny)
-        /// </summary>
+        // Tabela ról operatorów
         public DbSet<OperatorRole> OperatorRoles { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Operator>()
+                .HasIndex(o => o.Email)
+                .IsUnique();
+
+            modelBuilder.Entity<Operator>()
+                .HasOne(o => o.Role)
+                .WithMany()
+                .HasForeignKey(o => o.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
     }
 }

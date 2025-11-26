@@ -1,0 +1,26 @@
+@using FitnessApp.Models
+@using FitnessApp.Models.ViewModels
+
+@model IEnumerable<OperatorRole>
+
+@await Html.PartialAsync("_Table", new TableViewModel
+{
+    Items = Model,  
+
+    Columns = new List<TableColumn>()
+    {
+        new TableColumn { Header = "Nazwa roli", ValueSelector = x => ((OperatorRole)x).Name }
+    },
+
+    Actions = new List<TableAction>()
+    {
+        new TableAction {
+            LabelSelector = x => "Usuń",
+            CssClass = "btn btn-sm btn-danger",
+            Icon = "bi-trash",
+            IsModal = true,
+            ModalId = "deleteRoleModal",
+            NameSelector = x => ((OperatorRole)x).Name
+        }
+    } 
+})

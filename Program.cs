@@ -1,5 +1,6 @@
 using FitnessApp.Data;
 using FitnessApp.Services;
+using FitnessApp.Helpers; 
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// rejestracja kontekstu bazy (SQLite)
+builder.Services.AddSession();
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -30,9 +32,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession();
+
+app.UseMiddleware<AdminOnlyMiddleware>();
+
 app.UseAuthorization();
 
-// domyślna trasa (dla stron takich jak /Home/Index)
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

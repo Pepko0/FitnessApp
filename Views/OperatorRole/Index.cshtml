@@ -1,9 +1,10 @@
 @model IEnumerable<FitnessApp.Models.OperatorRole>
+
 @{
-    ViewData["Title"] = "Zarządzanie → Operatorzy";
+    ViewData["Title"] = "Zarządzanie -> Role operatorów";
 }
 
-<h1 class="mb-3">Zarządzanie: Role operatorów</h1>
+<h1 class="mb-3">Role pracowników</h1>
 
 @if (TempData["Error"] is string err)
 {
@@ -20,8 +21,19 @@
     </button>
 </div>
 
-@await Html.PartialAsync("~/Views/Shared/Components/OperatorRole/_OperatorRolesTable.cshtml", Model)
-@await Html.PartialAsync("~/Views/Shared/Components/OperatorRole/_AddRoleModal.cshtml")
+@await Html.PartialAsync("~/Views/Shared/Components/OperatorRoles/_OperatorRolesTable.cshtml", Model)
+@await Html.PartialAsync("~/Views/Shared/Components/OperatorRoles/_AddRoleModal.cshtml")
+@await Html.PartialAsync("~/Views/Shared/Components/_DeleteModal.cshtml",
+    new DeleteModalViewModel
+    {
+        ModalId = "deleteRoleModal",
+        FormId = "deleteRoleForm",
+        ItemNameId = "deleteRoleName",
+        Title = "Potwierdzenie usunięcia roli",
+        QuestionText = "Czy na pewno chcesz usunąć rolę:",
+        DeleteUrlBase = "/zarzadzanie/operatorzy/role/usun"
+    })
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

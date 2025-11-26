@@ -9,7 +9,6 @@ namespace FitnessApp.Models
         /// <summary>
         /// Przechowuje nazwę roli operatora
         /// </summary>
-        [Required, MaxLength(100)]
-        public string Name { get; set; } = string.Empty;
-    }
+        [Required]
+        public string Name { get; set; } = string.Empty;    }
 }
