@@ -44,7 +44,7 @@ namespace FitnessApp.Controllers
             return Content("Admin created!");
         }
 
-        [HttpGet("debug/add-roles")]
+        [HttpGet("add-roles")]
         public IActionResult AddRoles([FromServices] AppDbContext db)
         {
             db.OperatorRoles.AddRange(
