@@ -31,6 +31,8 @@ dotnet ef database update
 
 ## Baza danych 
 
+![Diagram schematu bazy danych](wwwroot/images/readme/DBSchema.png)
+
 ### Tabela: "Operators"
 
 **`Operators`** – przechowuje dane pracowników (operatorów), takich jak imię, nazwisko, adres e-mail, hasło oraz przypisana rola.  
