@@ -1,8 +1,95 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Strona główna";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5" style="max-width: 1000px;">
+
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Wybierz co chcesz zrobić</h2>
+        <div class="text-muted">Kliknij jedną z opcji poniżej</div>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Kafelek: Trening personalny -->
+        <div class="col-12 col-md-6">
+            <a href="/treningi" class="home-tile">
+                <div class="tile-body">
+                    <div class="tile-icon">
+                        <i class="bi bi-activity"></i>
+                    </div>
+                    <div class="tile-title">Wybierz trening personalny</div>
+                    <div class="tile-subtitle">
+                        Zobacz dostępne treningi i wybierz najlepszy dla siebie
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Kafelek: Dieta -->
+        <div class="col-12 col-md-6">
+            <a href="/diety" class="home-tile">
+                <div class="tile-body">
+                    <div class="tile-icon">
+                        <i class="bi bi-egg-fried"></i>
+                    </div>
+                    <div class="tile-title">Wybierz dietę</div>
+                    <div class="tile-subtitle">
+                        Przeglądaj diety i dopasuj plan żywieniowy
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
 </div>
+
+<style>
+    .home-tile{
+        display:block;
+        background:#fff;
+        border-radius:20px;
+        border:1px solid rgba(0,0,0,.06);
+        box-shadow:0 8px 22px rgba(0,0,0,.07);
+        text-decoration:none;
+        color:inherit;
+        height:240px;
+        transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .home-tile:hover{
+        transform:translateY(-5px);
+        box-shadow:0 12px 30px rgba(0,0,0,.12);
+        border-color:rgba(0,0,0,.12);
+    }
+    .tile-body{
+        height:100%;
+        padding:28px;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        gap:12px;
+        text-align:center;
+    }
+    .tile-icon{
+        width:84px;
+        height:84px;
+        border-radius:18px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:#f5f7fb;
+        font-size:40px;
+    }
+    .tile-title{
+        font-size:1.25rem;
+        font-weight:800;
+        line-height:1.2;
+    }
+    .tile-subtitle{
+        font-size:.98rem;
+        color:#6c757d;
+        line-height:1.3;
+        max-width:360px;
+    }
+</style>

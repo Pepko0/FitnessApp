@@ -14,13 +14,14 @@
 
     Actions = new List<TableAction>()
     {
-        new TableAction {
-            LabelSelector = x => "Usuń",
-            CssClass = "btn btn-sm btn-danger",
-            Icon = "bi-trash",
-            IsModal = true,
-            ModalId = "deleteRoleModal",
-            NameSelector = x => ((OperatorRole)x).Name
-        }
+    new TableAction {
+        LabelSelector = x => "Usuń",
+        CssClass = "btn btn-sm btn-danger",
+        Icon = "bi-trash",
+        IsModal = true,
+        ModalId = "deleteOperatorModal",
+        IdSelector = x => ((Operator)x).Id,          // <<< TO DODAJ
+        NameSelector = x => ((Operator)x).FirstName + " " + ((Operator)x).LastName
+}
     } 
 })

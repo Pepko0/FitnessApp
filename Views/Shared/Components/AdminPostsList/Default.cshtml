@@ -1,0 +1,67 @@
+@using FitnessApp.Models.Enums
+@using FitnessApp.Helpers
+@model List<FitnessApp.Models.Post>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Brak postów.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Tytuł</th>
+                    <th>Typ</th>
+                    <th>Widoczność</th>
+                    <th>Klient</th>
+                    <th>Autor</th>
+                    <th>Utworzono</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td style="max-width:260px;">
+                            <strong>@p.Title</strong>
+                            <div class="text-muted small text-truncate">
+                                @p.Content
+                            </div>
+                        </td>
+
+                        <td>@p.Type.GetDisplayName()</td>
+                        <td>@p.Visibility.GetDisplayName()</td>
+
+                        <td>
+                            @if (p.Client != null)
+                            {
+                                <span>@p.Client.FirstName @p.Client.LastName</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">—</span>
+                            }
+                        </td>
+
+                        <td>
+                            @if (p.Operator != null)
+                            {
+                                <span>@p.Operator.FirstName @p.Operator.LastName</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">—</span>
+                            }
+                        </td>
+
+                        <td>@p.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

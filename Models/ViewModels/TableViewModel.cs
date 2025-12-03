@@ -8,12 +8,13 @@ namespace FitnessApp.Models.ViewModels
 
     public class TableAction
     {
-        public Func<object, string>? UrlSelector { get; set; }
         public Func<object, string>? LabelSelector { get; set; }
-        public string CssClass { get; set; } = "btn btn-sm btn-primary";
-        public string? Icon { get; set; }
-        public bool IsModal { get; set; } = false;
-        public string? ModalId { get; set; }
+        public Func<object, string>? UrlSelector { get; set; }
+        public Func<object, object?>? IdSelector { get; set; }  // <-- tu
+        public string CssClass { get; set; } = "";
+        public string Icon { get; set; } = "";
+        public bool IsModal { get; set; }
+        public string ModalId { get; set; } = "";
         public Func<object, string>? NameSelector { get; set; }
     }
 

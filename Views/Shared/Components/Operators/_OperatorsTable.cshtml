@@ -23,11 +23,12 @@
         },
         new TableAction {
             LabelSelector = x => "Usuń",
-            CssClass = "btn btn-sm btn-danger ms-1",
-            Icon = "bi-trash",
+            CssClass = "btn btn-sm btn-danger",
+            Icon = "trash",              // albo "bi-trash" jeśli tak masz w TableAction
             IsModal = true,
             ModalId = "deleteOperatorModal",
-            NameSelector = x => ((Operator)x).FirstName + " " + ((Operator)x).LastName
+            IdSelector = x => ((Operator)x).Id,    // <<< KLUCZOWE
+            NameSelector = x => $"{((Operator)x).FirstName} {((Operator)x).LastName}"
         }
     }
 })

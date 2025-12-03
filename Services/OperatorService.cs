@@ -97,19 +97,31 @@ namespace FitnessApp.Services
                 .ToListAsync();
         }
 
-        public async Task<(bool Success, string Message)> AddOperatorAsync(Operator op)
+        public async Task<(bool success, string message)> AddOperatorAsync(Operator op)
         {
             if (string.IsNullOrWhiteSpace(op.Email))
                 return (false, "Email jest wymagany.");
-        
+
             var exists = await _db.Operators.AnyAsync(o => o.Email == op.Email);
             if (exists)
                 return (false, $"Operator z adresem {op.Email} już istnieje.");
-        
+
+            if (string.IsNullOrWhiteSpace(op.Password))
+                return (false, "Hasło jest wymagane.");
+
+            op.Password = BCrypt.Net.BCrypt.HashPassword(op.Password);
+
+            op.ChangePassword = false;
+            op.PasswordResetToken = null;
+            op.PasswordResetTokenExpires = null;
+            op.CreatedAt = DateTime.UtcNow;
+            op.UpdatedAt = DateTime.UtcNow;
+
             _db.Operators.Add(op);
             await _db.SaveChangesAsync();
-        
+
             return (true, $"Dodano nowego operatora: {op.FirstName} {op.LastName}");
         }
+
     }
 }

@@ -1,12 +1,29 @@
+
+
 @{
     string path = Context.Request.Path.ToString().ToLower();
+
     Func<string, string> active = (url) =>
-    path.StartsWith(url.ToLower()) ? "active fw-bold" : "";
+        path.StartsWith(url.ToLower()) ? "active fw-bold" : "";
+
+    var roleId = Context.Session.GetInt32("OperatorRoleId");
+
+    bool isAdmin = roleId == 1;
+    bool isTrainer = roleId == 3;
+    bool isDietitian = roleId == 4;
+
+    bool canSeePostsList = isAdmin || isTrainer || isDietitian;
+    bool canAddDiet = isAdmin || isDietitian;
+    bool canAddTraining = isAdmin || isTrainer;
+
+    bool canManageWorkers = isAdmin;
 }
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/zarzadzanie">Panel administracyjny</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/zarzadzanie">
+            Panel zarządzania
+        </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
             <span class="navbar-toggler-icon"></span>
@@ -14,28 +31,82 @@
 
         <div class="collapse navbar-collapse" id="adminNavbar">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="workersDropdown" role="button"
-                        data-bs-toggle="dropdown">
-                        Pracownicy
+
+                <li class="nav-item">
+                    <a class="nav-link @active("/")" href="/">
+                        Strona główna
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item @(path.StartsWith("/zarzadzanie/operatorzy"))"
-                                href="/zarzadzanie/operatorzy">
-                                Pracownicy
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item @(path.StartsWith("/zarzadzanie/operatorzy/role"))"
-                                href="/zarzadzanie/operatorzy/role">
-                                Role
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-                <li class="nav-item ms-auto">
-                    <a class="nav-link text-danger" href="/logout">Wyloguj</a>
+
+                @if (canSeePostsList)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle @(path.StartsWith("/zarzadzanie/posts") ? "active fw-bold" : "")"
+                           href="#" id="postsDropdown" role="button" data-bs-toggle="dropdown">
+                            Artykuły
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item @active("/zarzadzanie/posts")"
+                                   href="/zarzadzanie/posts">
+                                    Lista artykułów
+                                </a>
+                            </li>
+
+                            @if (canAddDiet)
+                            {
+                                <li>
+                                    <a class="dropdown-item @active("/zarzadzanie/posts/dodaj")"
+                                       href="/zarzadzanie/posts/dodaj">
+                                        Dodaj dietę
+                                    </a>
+                                </li>
+                            }
+
+                            @if (canAddTraining)
+                            {
+                                <li>
+                                    <a class="dropdown-item @active("/zarzadzanie/posts/dodaj-trening")"
+                                       href="/zarzadzanie/posts/dodaj-trening">
+                                        Dodaj trening personalny
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+
+                @if (canManageWorkers)
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle @(path.StartsWith("/zarzadzanie/operatorzy") ? "active fw-bold" : "")"
+                           href="#" id="workersDropdown" role="button" data-bs-toggle="dropdown">
+                            Pracownicy
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item @active("/zarzadzanie/operatorzy")"
+                                   href="/zarzadzanie/operatorzy">
+                                    Lista pracowników
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item @active("/zarzadzanie/operatorzy/role")"
+                                   href="/zarzadzanie/operatorzy/role">
+                                    Role
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="/logout">
+                        Wyloguj
+                    </a>
                 </li>
             </ul>
         </div>

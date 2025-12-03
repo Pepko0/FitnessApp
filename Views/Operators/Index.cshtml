@@ -3,27 +3,19 @@
 @{
     ViewData["Title"] = "Zarządzanie → Operatorzy";
 }
+<div class="container mt-4">
 
-<h1 class="mb-3">Zardządzanie pracownikami</h1>
+    <h1 class="mb-3">Zardządzanie pracownikami</h1>
 
-@if (TempData["Error"] is string err)
-{
-    <div class="alert alert-danger">@err</div>
-}
-@if (TempData["Success"] is string ok)
-{
-    <div class="alert alert-success">@ok</div>
-}
+    <div class="mb-3 text-end">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addOperatorModal">
+            Dodaj nowego operatora
+        </button>
+    </div>
 
-<div class="mb-3 text-end">
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addOperatorModal">
-        Dodaj nowego operatora
-    </button>
-</div>
-
-@await Html.PartialAsync("~/Views/Shared/Components/Operators/_OperatorsTable.cshtml", Model.Operators)
-@await Html.PartialAsync("~/Views/Shared/Components/Operators/_AddOperatorModal.cshtml", Model.Roles)
-@await Html.PartialAsync("~/Views/Shared/Components/_DeleteModal.cshtml",
+    @await Html.PartialAsync("~/Views/Shared/Components/Operators/_OperatorsTable.cshtml", Model.Operators)
+    @await Html.PartialAsync("~/Views/Shared/Components/Operators/_AddOperatorModal.cshtml", Model.Roles)
+    @await Html.PartialAsync("~/Views/Shared/Components/_DeleteModal.cshtml",
     new DeleteModalViewModel
     {
         ModalId = "deleteOperatorModal",
@@ -34,7 +26,7 @@
         DeleteUrlBase = "/zarzadzanie/operatorzy/usun"
     })
 
-
+</div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

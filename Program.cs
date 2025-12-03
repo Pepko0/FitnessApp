@@ -16,6 +16,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // rejestracja serwisu biznesowego
 builder.Services.AddScoped<OperatorRoleService>();
 builder.Services.AddScoped<OperatorService>();
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
+
 
 
 var app = builder.Build();

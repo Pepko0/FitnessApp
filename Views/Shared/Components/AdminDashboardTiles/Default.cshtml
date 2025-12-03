@@ -1,0 +1,18 @@
+@model List<FitnessApp.Models.ViewModels.DashboardTileVM>
+
+<div class="row g-3">
+    @foreach (var t in Model)
+    {
+        <div class="col-12 col-md-6 col-lg-3">
+            <a href="@t.Url" class="dashboard-tile">
+                <div class="tile-body">
+                    <div class="tile-icon">
+                        <i class="@t.IconClass"></i>
+                    </div>
+                    <div class="tile-title">@t.Title</div>
+                    <div class="tile-subtitle">@t.Subtitle</div>
+                </div>
+            </a>
+        </div>
+    }
+</div>

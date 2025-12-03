@@ -12,6 +12,10 @@ namespace FitnessApp.Data
 
         // Tabela ról operatorów
         public DbSet<OperatorRole> OperatorRoles { get; set; } = default!;
+        public DbSet<Client> Clients { get; set; }
+
+        public DbSet<Post> Posts { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

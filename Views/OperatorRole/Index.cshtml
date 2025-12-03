@@ -1,27 +1,28 @@
 @model IEnumerable<FitnessApp.Models.OperatorRole>
 
 @{
-    ViewData["Title"] = "Zarządzanie -> Role operatorów";
+    ViewData["Title"] = "Role pracowników";
 }
 
-<h1 class="mb-3">Role pracowników</h1>
+<div class="container mt-4">
 
-@if (TempData["Error"] is string err)
-{
-    <div class="alert alert-danger">@err</div>
-}
-@if (TempData["Success"] is string ok)
-{
-    <div class="alert alert-success">@ok</div>
-}
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+            <h2 class="mb-1">Role pracowników</h2>
+            <div class="text-muted">Zarządzanie rolami operatorów</div>
+        </div>
 
-<div class="mb-3 text-end">
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addRoleModal">
-        Dodaj nową rolę
-    </button>
+        <button class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#addRoleModal">
+            Dodaj nową rolę
+        </button>
+    </div>
+
+    @await Html.PartialAsync("~/Views/Shared/Components/OperatorRoles/_OperatorRolesTable.cshtml", Model)
+
 </div>
 
-@await Html.PartialAsync("~/Views/Shared/Components/OperatorRoles/_OperatorRolesTable.cshtml", Model)
 @await Html.PartialAsync("~/Views/Shared/Components/OperatorRoles/_AddRoleModal.cshtml")
 @await Html.PartialAsync("~/Views/Shared/Components/_DeleteModal.cshtml",
     new DeleteModalViewModel
@@ -33,7 +34,6 @@
         QuestionText = "Czy na pewno chcesz usunąć rolę:",
         DeleteUrlBase = "/zarzadzanie/operatorzy/role/usun"
     })
-
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
