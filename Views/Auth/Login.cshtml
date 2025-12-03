@@ -1,32 +1,72 @@
 @{
+    var returnUrl = ViewBag.ReturnUrl as string;
+}
+
+@{
+    var mode = (ViewBag.LoginMode as string ?? "operator").ToLower();
+    bool isClient = mode == "client";
+
     ViewData["Title"] = "Logowanie";
 }
 
-<div class="row justify-content-center mt-5">
-    <div class="col-md-4">
 
-        <h3 class="text-center mb-4">Logowanie</h3>
+<div class="container mt-4" style="max-width:520px;">
+    <h2 class="mb-1">Logowanie</h2>
+    <div class="text-muted mb-3">
+        @(isClient
+                ? "Zaloguj się, aby przeglądać diety i treningi."
+                : "Zaloguj się do panelu zarządzania.")
+    </div>
 
-        @if (TempData["Error"] is string err)
+    <form method="post" action="@(isClient ? "/client/login" : "/login")">
+        @Html.AntiForgeryToken()
+
+        @if (!string.IsNullOrEmpty(returnUrl))
         {
-            <div class="alert alert-danger">@err</div>
+            <input type="hidden" name="returnUrl" value="@returnUrl" />
         }
 
-        <form method="post" asp-action="Login">
-            @Html.AntiForgeryToken()
+        <div class="form-group mb-2">
+            <label>Email</label>
+            <input name="email" class="form-control" type="email" required />
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input name="email" class="form-control" type="email" required />
-            </div>
+        <div class="form-group mb-3">
+            <label>Hasło</label>
+            <input name="password" class="form-control" type="password" required />
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Hasło</label>
-                <input name="password" class="form-control" type="password" required />
-            </div>
+        <button type="submit" class="btn btn-primary w-100">
+            Zaloguj się
+        </button>
+    </form>
 
-            <button type="submit" class="btn btn-primary w-100">Zaloguj</button>
-        </form>
+    <!-- LINK RESETU HASŁA -->
+    <div class="text-center mt-3">
+        @if (isClient)
+        {
+            <a asp-controller="ClientAuth" asp-action="ForgotPassword">
+                Nie pamiętasz hasła?
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Auth" asp-action="ForgotPassword">
+                Nie pamiętasz hasła?
 
+            </a>
+        }
+    </div>
+
+    <!-- PRZEŁĄCZANIE TRYBU -->
+    <div class="text-center mt-2">
+        @if (isClient)
+        {
+            <a href="/login">Zaloguj jako pracownik</a>
+        }
+        else
+        {
+            <a href="/client/login">Zaloguj jako klient</a>
+        }
     </div>
 </div>

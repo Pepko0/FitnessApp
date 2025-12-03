@@ -1,0 +1,87 @@
+@model List<FitnessApp.Models.Post>
+
+@using FitnessApp.Models.Enums
+@{
+    var clientId = Context.Session.GetInt32("ClientId");
+    var operatorId = Context.Session.GetInt32("OperatorId");
+}
+
+@{
+    ViewData["Title"] = "Diety";
+}
+<div class="container mt-4">
+    <div class="row g-3">
+        @foreach (var p in Model)
+        {
+            @await Html.PartialAsync("_PostTile", p)
+        }
+    </div>
+</div>
+
+<style>
+    .post-tile {
+        background: #fff;
+        border-radius: 16px;
+        border: 1px solid rgba(0, 0, 0, .06);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
+        padding: 16px;
+        height: 100%;
+
+        display: flex;
+        /* NEW */
+        flex-direction: column;
+        /* NEW */
+    }
+
+    .post-header h5 {
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .post-content {
+        margin-top: 10px;
+        white-space: pre-line;
+        color: #222;
+        font-size: .98rem;
+        line-height: 1.45;
+
+        flex: 1;
+        /* NEW - wypycha stopkę na dół */
+    }
+
+    .post-tile-link {
+        text-decoration: none !important;
+        color: inherit;
+        display: block;
+        height: 100%;
+    }
+
+    /* usuwa podkreślenie także ze wszystkich elementów w środku */
+    .post-tile-link * {
+        text-decoration: none !important;
+        color: inherit;
+    }
+
+    .post-tile-link:hover .post-tile {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, .10);
+        border-color: rgba(0, 0, 0, .12);
+        transition: .15s ease;
+    }
+
+    .post-locked {
+        opacity: .85;
+        background: #fafafa;
+    }
+
+    /* NEW - stopka z napisem na dole kafelka */
+    .post-footer-lock {
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px dashed rgba(0, 0, 0, .12);
+        font-size: .9rem;
+        color: #6c757d;
+        text-align: center;
+        font-weight: 600;
+    }
+</style>

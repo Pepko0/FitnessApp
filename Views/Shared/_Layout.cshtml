@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 
 <head>
     <meta charset="utf-8" />
@@ -7,53 +7,97 @@
     <title>@ViewData["Title"] - FitnessAppMVC</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FitnessAppMVC.styles.css" asp-append-version="true" />
 </head>
 
 <body>
+    @{
+        var clientId = Context.Session.GetInt32("ClientId");
+        var clientName = Context.Session.GetString("ClientName");
 
-    @* ----------- ADMIN NAVBAR ----------- *@
-    @if (Context.Request.Path.StartsWithSegments("/zarzadzanie"))
+        var operatorId = Context.Session.GetInt32("OperatorId");
+        var operatorName = Context.Session.GetString("OperatorName");
+
+        bool isAdminArea = Context.Request.Path.StartsWithSegments("/zarzadzanie");
+    }
+
+
+
+
+    @* ----------- NAVBAR ----------- *@
+    @if (isAdminArea)
     {
         @await Html.PartialAsync("_AdminNavbar")
     }
     else
     {
-        @* ----------- FRONTEND NAVBAR ----------- *@
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container-fluid">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FitnessAppMVC</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                        <ul class="navbar-nav flex-grow-1">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="/">
+                    FitnessApp
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <!-- LEWA STRONA: nawigacja -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/treningi">Treningi personalne</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/diety">Diety</a>
+                        </li>
+
+                        @* link widoczny tylko dla operatorów *@
+                        @if (operatorId != null)
+                        {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link" href="/zarzadzanie">Panel zarządzania</a>
+                            </li>
+                        }
+                    </ul>
+
+                    <!-- PRAWA STRONA: logowanie/wylogowanie klienta -->
+                    <ul class="navbar-nav ms-auto">
+                        @if (clientId == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/client/login">Zaloguj</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                <a class="btn btn-primary ms-lg-2" href="/client/register">
+                                    Rejestracja
+                                </a>
                             </li>
-                        </ul>
-                    </div>
+                        }
+                        else
+                        {
+                            <li class="nav-item d-flex align-items-center me-2 text-muted small">
+                                Witaj, <strong class="ms-1">@clientName</strong>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-outline-secondary" href="/client/logout">
+                                    Wyloguj
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </div>
-            </nav>
-        </header>
+            </div>
+        </nav>
     }
 
-    <div class="container mt-3 pb-3">
+    @* ----------- CONTENT ----------- *@
+    <main>
+        @await Html.PartialAsync("_Alerts")
         @RenderBody()
-    </div>
-
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - FitnessAppMVC -
-            <a asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    </main>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Posty";
+}
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+            <h2 class="mb-1">Posty</h2>
+            <div class="text-muted">Diety i treningi personalne</div>
+        </div>
+    </div>
+
+    @await Component.InvokeAsync("AdminPostsList")
+</div>

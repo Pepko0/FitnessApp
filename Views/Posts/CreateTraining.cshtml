@@ -1,0 +1,15 @@
+@model CreatePostViewModel
+@{
+    ViewData["Title"] = "Dodaj trening";
+    ViewBag.FormAction = "CreateTraining";
+    ViewBag.CancelUrl = "/zarzadzanie/posts";
+}
+
+<div class="container mt-4" style="max-width:900px;">
+    <h2 class="mb-3">Dodaj nowy trening personalny</h2>
+    @await Html.PartialAsync("_PostForm", Model)
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

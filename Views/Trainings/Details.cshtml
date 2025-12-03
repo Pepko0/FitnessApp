@@ -1,0 +1,36 @@
+@model FitnessApp.Models.Post
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container mt-4" style="max-width: 900px;">
+
+    <a href="/treningi" class="btn btn-outline-secondary mb-3">← Wróć do treningów</a>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h2 class="mb-1">@Model.Title</h2>
+
+            <div class="text-muted small mb-3">
+                Dodano: @Model.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")
+                • Autor: @Model.Operator?.FirstName @Model.Operator?.LastName
+            </div>
+
+            <hr />
+
+            <div class="post-details-content">
+                @Model.Content
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .post-details-content{
+        white-space: pre-line;
+        font-size: 1.02rem;
+        line-height: 1.6;
+        color:#222;
+    }
+</style>

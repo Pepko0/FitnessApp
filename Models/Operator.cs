@@ -20,6 +20,11 @@ namespace FitnessApp.Models
     
         public int RoleId { get; set; }
         public OperatorRole? Role { get; set; }
+
+        public bool ChangePassword { get; set; } = false;
+        public string? PasswordResetToken { get; set; }
+            
+        public DateTime? PasswordResetTokenExpires { get; set; }
     
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;

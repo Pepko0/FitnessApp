@@ -1,0 +1,57 @@
+@using FitnessApp.Models.Enums
+@using FitnessApp.Helpers
+@model CreatePostViewModel
+
+@{
+    var clients = ViewBag.Clients as List<FitnessApp.Models.Client> ?? new();
+    string actionName = ViewBag.FormAction as string ?? "Create";
+    string cancelUrl = ViewBag.CancelUrl as string ?? "/zarzadzanie/posts";
+}
+
+<form asp-controller="Posts" asp-action="@actionName" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group mb-3">
+        <label asp-for="Title" class="form-label">Tytuł</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Content" class="form-label">Treść</label>
+        <textarea asp-for="Content" class="form-control" rows="8"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-4 mb-3">
+            <label asp-for="Visibility" class="form-label">Widoczność</label>
+            <select asp-for="Visibility"
+                    asp-items="Html.GetEnumSelectList<PostVisibility>()"
+                    class="form-select">
+            </select>
+            <span asp-validation-for="Visibility" class="text-danger"></span>
+        </div>
+
+        <div class="col-12 col-md-4 mb-3">
+            <label asp-for="ClientId" class="form-label">Klient (opcjonalnie)</label>
+            <select asp-for="ClientId" class="form-select">
+                <option value="">— Post ogólny —</option>
+                @foreach (var c in clients)
+                {
+                    <option value="@c.Id">@c.FirstName @c.LastName (@c.Email)</option>
+                }
+            </select>
+            <span asp-validation-for="ClientId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-2">
+        <button type="submit" class="btn btn-primary">
+            Zapisz post
+        </button>
+        <a href="@cancelUrl" class="btn btn-outline-secondary">
+            Anuluj
+        </a>
+    </div>
+</form>
