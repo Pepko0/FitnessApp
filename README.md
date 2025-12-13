@@ -1,68 +1,115 @@
-# 🏋️‍♂️ FitnessApp
+# Dokumentacja techniczna – FitnessApp
 
-Aplikacja fitness w **ASP.NET Core MVC** z użyciem **Entity Framework Core** i **SQLite**.  
-Pozwala zarządzać operatorami (pracownikami) i ich rolami.
+## 1. Opis projektu
+**FitnessApp** - aplikacja webowa typu **ASP.NET Core MVC**, przeznaczona do zarządzania operatorami systemu fitness oraz ich rolami.  
+Projekt wykorzystuje **Entity Framework Core** jako warstwę dostępu do danych oraz **SQLite** jako bazę danych.
 
----
-
-## ⚙️ Wymagania
-- .NET SDK 8.0+
-- Git
-- SQLite (lub DB Browser for SQLite)
-- Visual Studio / Rider / VS Code
+Aplikacja została zaprojektowana w architekturze warstwowej, co ułatwia jej rozwój, testowanie oraz utrzymanie.
 
 ---
 
-## 🔧 Instalacja
+## 2. Stos technologiczny
+- **Backend:** ASP.NET Core MVC (.NET)
+- **ORM:** Entity Framework Core
+- **Baza danych:** SQLite
+- **Frontend:** Razor Views, HTML5, CSS3
+- **JavaScript:** jQuery, jQuery Validation
+- **Architektura:** MVC + Services
+- **Kontrola wersji:** Git
 
-```bash
-git clone https://github.com/Pepko0/FitnessApp.git
-cd FitnessApp
-dotnet restore
-dotnet tool install --global dotnet-ef
-```
+---
 
-## 🗄️ Konfiguracja bazy danych
+## 3. Architektura aplikacji
 
-```bash
-dotnet ef migrations add InitialCreate
-dotnet ef database update
-```
+### 3.1 Wzorzec MVC
+Aplikacja została oparta na wzorcu **Model–View–Controller**:
 
-## Baza danych 
+- **Model** - reprezentuje dane i logikę domenową
+- **View** - odpowiada za warstwę prezentacji
+- **Controller** - obsługuje żądania HTTP i koordynuje działanie aplikacji
+
+### 3.2 Warstwy aplikacji
+
+1. **Controllers**
+   - Obsługa żądań HTTP (GET, POST)
+   - Walidacja danych wejściowych
+   - Komunikacja z warstwą Services
+
+2. **Services**
+   - Logika biznesowa aplikacji
+   - Operacje CRUD
+   - Separacja logiki od kontrolerów
+
+3. **Models**
+   - Encje bazy danych
+   - Atrybuty walidacyjne
+   - Relacje między encjami
+
+4. **Data**
+   - `ApplicationDbContext`
+   - Konfiguracja EF Core
+   - Migracje bazy danych
+
+5. **Views**
+   - Widoki Razor (.cshtml)
+   - Layouty i widoki współdzielone
+
+---
+
+## 4. Baza danych
+
+### 4.1 Technologia
+- SQLite
+- Entity Framework Core
+- Code First + migracje
+
+### 4.2 Struktura tabel
 
 ![Diagram schematu bazy danych](wwwroot/images/readme/DBSchema.png)
 
-### Tabela: "Operators"
+## 5. Moduły funkcjonalne
 
-**`Operators`** – przechowuje dane pracowników (operatorów), takich jak imię, nazwisko, adres e-mail, hasło oraz przypisana rola.  
-Każdy operator ma przypisaną jedną rolę (relacja *wiele do jednego* z tabelą `OperatorRoles`).
+### 5.1 Zarządzanie rolami operatorów
+Funkcjonalności:
+- Wyświetlanie listy ról
+- Dodawanie nowych ról
+- Walidacja danych
+- Usuwanie ról
 
-|       Id       | FirstName | LastName | Email | Password |      RoleId      | CreatedAt |        UpdatedAt        |
-|:--------------:|:---------:|:--------:|:-----:|:---------:|:----------------:|:---------:|:-----------------------:|
-| Id Pracownika  |   Imię    | Nazwisko | Email | Hasło | Rola pracownFika | Data utworzenia konta| Data aktualizacji konta |
+Powiązane pliki:
+- `Models/OperatorRole.cs`
+- `Controllers/OperatorRoleController.cs`
+- `Services/OperatorRoleService.cs`
+- `Views/OperatorRole/Index.cshtml`
 
-#### Powiązane pliki:
-- Models/Operator.cs – definicja modelu
-- Views/Operators/Index.cshtml – widok listy operatorów
-- Views/Shared/Components/Operators/_OperatorsTable.cshtml – tabela operatorów
-- Views/Shared/Components/Operators/_AddOperatorModal.cshtml – formularz dodawania
-- Controllers/OperatorsController.cs – kontroler obsługujący widok
-- Services/OperatorService.cs – logika biznesowa
+### 5.2 Zarządzanie operatorami
+Funkcjonalności:
+- Tworzenie operatorów
+- Przypisywanie ról
+- Edycja danych operatora
+- Usuwanie operatorów
 
+---
 
-### Tabela: "OperatorRoles"
-**`OperatorRoles`** – zawiera listę dostępnych ról w systemie (np. Administrator, Trener personalny, Dietetyk).  
-Tabela służy do grupowania operatorów według ich funkcji w aplikacji.
+## 6. Konfiguracja aplikacji
 
-|   Id    |    Name    |
-|:-------:|:----------:|
-| Id roli | Nazwa roli |
+### 6.1 appsettings.json
+Plik zawiera:
+- konfigurację połączenia z bazą SQLite
+- ustawienia środowiskowe aplikacji
 
-#### Powiązane pliki:
-- Models/OperatorRole.cs – definicja modelu 
-- Views/OperatorRole/Index.cshtml – widok listy ról 
-- Views/Shared/Components/OperatorRole/_OperatorRolesTable.cshtml – tabela ról 
-- Views/Shared/Components/OperatorRole/_AddRoleModal.cshtml – formularz dodawania roli 
-- Controllers/OperatorRoleController.cs – kontroler obsługujący role 
-- Services/OperatorRoleService.cs – logika biznesowa dla ról
+### 6.2 Program.cs
+- Rejestracja kontrolerów MVC
+- Konfiguracja Dependency Injection
+- Konfiguracja Entity Framework Core
+
+---
+
+## 7. Uruchomienie projektu
+
+1. Rozpakuj projekt
+2. Otwórz w Visual Studio / Rider / VS Code
+3. Przywróć pakiety NuGet
+4. Wykonaj migracje bazy danych:
+   ```bash
+   dotnet ef database update
