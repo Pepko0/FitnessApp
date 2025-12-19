@@ -28,40 +28,13 @@ Aplikacja została oparta na wzorcu **Model–View–Controller**:
 - **View** - odpowiada za warstwę prezentacji
 - **Controller** - obsługuje żądania HTTP i koordynuje działanie aplikacji
 
-### 3.2 Warstwy aplikacji
-
-1. **Controllers**
-   - Obsługa żądań HTTP (GET, POST)
-   - Walidacja danych wejściowych
-   - Komunikacja z warstwą Services
-
-2. **Services**
-   - Logika biznesowa aplikacji
-   - Operacje CRUD
-   - Separacja logiki od kontrolerów
-
-3. **Models**
-   - Encje bazy danych
-   - Atrybuty walidacyjne
-   - Relacje między encjami
-
-4. **Data**
-   - `ApplicationDbContext`
-   - Konfiguracja EF Core
-   - Migracje bazy danych
-
-5. **Views**
-   - Widoki Razor (.cshtml)
-   - Layouty i widoki współdzielone
-
 ---
-
 ## 4. Baza danych
 
 ### 4.1 Technologia
 - SQLite
 - Entity Framework Core
-- Code First + migracje
+
 
 ### 4.2 Struktura tabel
 
@@ -75,19 +48,7 @@ Funkcjonalności:
 - Dodawanie nowych ról
 - Walidacja danych
 - Usuwanie ról
-
-Powiązane pliki:
-- `Models/OperatorRole.cs`
-- `Controllers/OperatorRoleController.cs`
-- `Services/OperatorRoleService.cs`
-- `Views/OperatorRole/Index.cshtml`
-
-### 5.2 Zarządzanie operatorami
-Funkcjonalności:
-- Tworzenie operatorów
-- Przypisywanie ról
-- Edycja danych operatora
-- Usuwanie operatorów
+- Dodawanie nowych artykułów
 
 ---
 
@@ -110,6 +71,6 @@ Plik zawiera:
 1. Rozpakuj projekt
 2. Otwórz w Visual Studio / Rider / VS Code
 3. Przywróć pakiety NuGet
-4. Wykonaj migracje bazy danych:
-   ```bash
-   dotnet ef database update
+4. Wykonaj migracje bazy danych: ```dotnet ef database update```
+5. wpisz w url ```debug/add-roles``` - doda to przykłądowe role 
+6. wpisz w url ```debug/create-admin``` - doda administratora z danymi logowania ```mail admin@admin.pl ``` oraz ```hasło: admin```
